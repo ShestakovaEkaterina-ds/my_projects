@@ -1,0 +1,28 @@
+SQL
+
+1.SELECT c.Номер_ВСП, MAX(c.Платеж)
+  FROM CreditCardInfo c
+  GROUP BY c.Номер_ВСП
+
+2.SELECT c.ФИО, c.Номер_карты, u.Кредитный_лимит
+  FROM CreditCardInfo c
+  LEFT JOIN CreditCardUploads u on (c.Номер_Договора_WAY4 = u.Номер_Договора_WAY4)
+  
+3.SELECT *
+  FROM CreditCardInfo c
+  WHERE c.Паспортные_данные = '12 34 567890'
+  
+4. type date_tabtype is table of date;
+   create or replace function (p_currdate in date)
+   return date_tabtype pipelined
+   as
+       v_currdate date := TRUNC(p_currdate);
+	   i integer;
+   begin
+       pipe row v_currdate;
+	   for i in 1..3 loop
+	       v_currdate := v_currdate - 7;
+		   pipe row v_currdate;
+	   end loop;
+   end;
+   
